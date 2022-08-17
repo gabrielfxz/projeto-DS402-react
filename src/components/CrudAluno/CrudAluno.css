@@ -4,14 +4,14 @@
 
 .listaAlunos {
     margin-left: 20px;
-
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    
+    font-family: 'Roboto', sans-serif;
 
 }
 
 .cabecTabela {
-    color: white;
-    background-color: black;
+    color: rgb(230,230,230);
+    background-color: #121212;
     font-size: 20px;
     text-align: left;
 }

@@ -1,5 +1,5 @@
 :root {
-    --bg-menu: #bdbbbb;
+    --bg-menu: #121212;
     --logo-width: 150px;
     --content-header-height: 60px;
     --content-footer-height: 40px;
@@ -7,7 +7,7 @@
 
 body {
     box-sizing: border-box;
-    font-family: "Pacifico", sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 /* Lay-out */
@@ -16,7 +16,7 @@ body {
     display: grid;
     grid-template-columns: var(--logo-width) 1fr;
 
-    grid-template-rows: var(--content-header-height) 1fr var(--content- footer-height);
+    grid-template-rows: var(--content-header-height) 1fr var(--content-footer-height);
 
     grid-template-areas:
         "logo menu"
