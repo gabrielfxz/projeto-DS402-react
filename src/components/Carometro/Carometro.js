@@ -13,8 +13,6 @@ export default function Carometro() {
         listaCursos: [],
     }
     
-
-    const [aluno, setAluno] = useState(initialState.aluno)
     const [listaCursos, setListaCursos] = useState(initialState.listaCursos);
     const [listaAlunos, setListaAlunos] = useState(initialState.listaAlunos);
     const [curso, setCurso] = useState(initialState.curso);
@@ -41,22 +39,6 @@ export default function Carometro() {
         }
         return stringAleatoria;
     }
-
-    const renderSelect = () => {
-        return (
-            <div className="select-container">
-                <label> Curso: </label>
-                <select className="selectCarometro" value={curso.codCurso}  onChange={e => { atualizarListaAlunos(e)}} required>
-                    <option disabled={true} key="" value="">  -- Escolha um curso -- </option>
-                    {listaCursos.map( (curso) =>
-                            <option  key={curso.id} name="codCurso" value={curso.codCurso}>
-                                { curso.codCurso } - { curso.nomeCurso } : { curso.periodo }
-                            </option>
-                    )}
-                </select>
-            </div>
-        );
-    };
 
     const getListaAlunosDoCurso = async (codCurso) => {
         return await axios(urlAPI)
@@ -87,6 +69,22 @@ export default function Carometro() {
         setListaAlunos(listaDeAlunos)
         setCurso(curso)
     }
+
+    const renderSelect = () => {
+        return (
+            <div className="select-container">
+                <label> Curso: </label>
+                <select className="selectCarometro" value={curso.codCurso}  onChange={e => { atualizarListaAlunos(e)}} required>
+                    <option disabled={true} key="" value="">  -- Escolha um curso -- </option>
+                    {listaCursos.map( (curso) =>
+                            <option  key={curso.id} name="codCurso" value={curso.codCurso}>
+                                { curso.codCurso } - { curso.nomeCurso } : { curso.periodo }
+                            </option>
+                    )}
+                </select>
+            </div>
+        );
+    };
 
     return (
         <div>
