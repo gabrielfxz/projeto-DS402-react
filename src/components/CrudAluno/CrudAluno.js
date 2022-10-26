@@ -59,11 +59,8 @@ export default class CrudAluno extends Component {
     }
 
     atualizaCampo(event) {
-        //clonar usuário a partir do state, para não alterar o state diretamente
         const aluno = { ...this.state.aluno };
-        //usar o atributo NAME do input identificar o campo a ser atualizado
         aluno[event.target.name] = event.target.value;
-        //atualizar o state
         this.setState({ aluno });
     }
         

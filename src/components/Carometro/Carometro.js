@@ -7,14 +7,17 @@ export default function Carometro() {
     const urlAPIcurso = "http://localhost:5172/api/curso";
 
     const initialState = {
-        aluno: {id: 0, ra: '', nome: '', codCurso: 0},
         curso: { id: 0, codCurso: "", nomeCurso: "", periodo: "" },
-        listaAlunos: [],
         listaCursos: [],
+    }
+
+    const initialStateAluno = {
+        aluno: {id: 0, ra: '', nome: '', codCurso: 0},
+        listaAlunos: [],
     }
     
     const [listaCursos, setListaCursos] = useState(initialState.listaCursos);
-    const [listaAlunos, setListaAlunos] = useState(initialState.listaAlunos);
+    const [listaAlunos, setListaAlunos] = useState(initialStateAluno.listaAlunos);
     const [curso, setCurso] = useState(initialState.curso);
 
     const dataFromAPIcurso = async () => {
@@ -23,7 +26,6 @@ export default function Carometro() {
             .catch((err) => {
                 console.log(err);
             });
-
     }
 
     useEffect(() => {
@@ -31,16 +33,16 @@ export default function Carometro() {
         console.log(listaCursos)
     },[])
 
-    function geraStringAleatoria(tamanho) {
-        let stringAleatoria = '';
+    function stringAleatoria(qtd) {
+        let stringAlt = '';
         let caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        for (var i = 0; i < tamanho; i++) {
-            stringAleatoria += caracteres.charAt(Math.floor(Math.random() * caracteres.length));
+        for (var i = 0; i < qtd; i++) {
+            stringAlt += caracteres.charAt(Math.floor(Math.random() * caracteres.length));
         }
-        return stringAleatoria;
+        return stringAlt;
     }
 
-    const getListaAlunosDoCurso = async (codCurso) => {
+    const getLista = async (codCurso) => {
         return await axios(urlAPI)
         .then((resp) => {
             const listaDeAlunos = resp.data;
@@ -50,45 +52,37 @@ export default function Carometro() {
         })
         .catch((err) => {
             console.log(err);
-
-            //sendMultipleErrorPopUp(err);
         });
     }
 
-    const atualizarListaAlunos = async (event) => {
-        const codCurso = event.target.value;
-        if (event.target.value === "") {
+    const atualizarLista = async (e) => {
+        const codCurso = e.target.value;
+        if (e.target.value === "") {
             setListaAlunos(initialState.listaAlunos);
             setCurso(initialState.curso);
             return
         }
         curso.codCurso = Number(codCurso)
-        const listaDeAlunos = await getListaAlunosDoCurso(curso.codCurso)
+        const listaDeAlunos = await getLista(curso.codCurso)
         if(!Array.isArray(listaDeAlunos)) return
 
         setListaAlunos(listaDeAlunos)
         setCurso(curso)
     }
 
-    const renderSelect = () => {
-        return (
-            <div className="select-container">
+    return (
+        <div>
+            <p className="m-4">CARÔMETRO</p>
+            <div>
                 <label> Curso: </label>
-                <select className="selectCarometro" value={curso.codCurso}  onChange={e => { atualizarListaAlunos(e)}} required>
-                    <option disabled={true} key="" value="">  -- Escolha um curso -- </option>
-                    {listaCursos.map( (curso) =>
-                            <option  key={curso.id} name="codCurso" value={curso.codCurso}>
-                                { curso.codCurso } - { curso.nomeCurso } : { curso.periodo }
-                            </option>
+                <select value={curso.codCurso}  onChange={e => { atualizarLista(e)}}>
+                    {listaCursos.map((curso) =>
+                        <option name="codCurso" value={curso.codCurso}>
+                            { curso.nomeCurso } - { curso.periodo } - { curso.codCurso }
+                        </option>
                     )}
                 </select>
             </div>
-        );
-    };
-
-    return (
-        <div>
-            <p className="m-4">CARÔMETRO {renderSelect()}</p>
             
             <div className="bg-[#f5f5f5] w-screen flex">
                 <div className="p-10 flex gap-10 flex-wrap justify-center">
@@ -96,7 +90,7 @@ export default function Carometro() {
                     {listaAlunos.map((aluno) => (
                                 <div className="rounded-[1.5rem] flex flex-col flex-wrap justify-center text-left h-[40vh] w-[25vh] shadow-2xl">
                                     <div className="w-11/12 items-center self-center place-items-center">
-                                    <img src={`https://avatars.dicebear.com/api/personas/${geraStringAleatoria(8)}.svg`}></img>
+                                    <img src={`https://avatars.dicebear.com/api/personas/${stringAleatoria(8)}.svg`}></img>
                                     </div>
                                     <div className="flex flex-col flex-wrap justify-center text-left p-5">
                                     <span>nome: {aluno.nome}</span>
